@@ -1,4 +1,3 @@
-```markdown
 # DeepID API and SDK Instructional Guide
 
 **Author:** Deep ID team  
@@ -45,16 +44,29 @@ Welcome to the DeepID API and SDK instructional guide! This document will walk y
 
 ## Getting Started
 
-**Setup and Installation**  
-To get started with the DeepID API and SDK, you must first sign up for an API key. Visit our [DeepID Documentation](https://staging.api.deepidentify.ai/docs/) and follow the registration process to obtain your unique API key. This key will be used to authenticate your requests and grant access to the DeepID API endpoints.
+### Setup and Installation
 
-**Workflow with SDK**  
+1. **Register for an API Key:**  
+   Sign up for a DeepID account at our [registration page](https://staging.api.deepidentify.ai/docs/) to obtain your unique API key. This key is essential for authenticating all requests through the DeepID API and SDK.
+
+2. **Install the DeepID SDK:**  
+   Ensure you have Python 3.6 or later installed on your system. Install the DeepID SDK by running the appropriate installation command. Configure the SDK in your environment as needed.
+
+### Workflow with SDK
+
 The typical workflow includes:
-- **File Submission:** Submitting media files for processing.
-- **Polling for Results:** Monitoring processing status until results are available.
-- **Retrieving and Saving Results:** Accessing detailed JSON reports to integrate into your applications.
 
-**Detailed Feature Usage**  
+- **File Submission:**  
+  Submitting media files for processing.
+  
+- **Polling for Results:**  
+  Monitoring processing status until results are available.
+  
+- **Retrieving and Saving Results:**  
+  Accessing detailed JSON reports to integrate into your applications.
+
+### Detailed Feature Usage
+
 This guide explains how to utilize DeepID’s various features, including comprehensive file data reporting, generator attribution (for images), visual manipulation detection, contextual image description, and analytical reasoning.
 
 ---
@@ -86,9 +98,10 @@ These enhancements empower you with more detailed insights and robust analysis c
 
 ### Authentication
 
-Every API request requires authentication via the HTTP Bearer scheme using your API token. For enhanced security:
-- **GET /user/token/session:** Generate a short-lived session token (valid for 1 hour).
-- **POST /user/token/refresh:** Refresh your session token.
+Every API request requires authentication via the HTTP Bearer scheme using your API token. For enhanced security, you can:
+
+- Generate a short-lived session token (valid for 1 hour) using **GET /user/token/session**.
+- Refresh your session token with **POST /user/token/refresh**.
 
 ### API Endpoints
 
@@ -100,10 +113,12 @@ Every API request requires authentication via the HTTP Bearer scheme using your 
 
 - **Processing Videos:**  
   DeepID supports both individual and batch processing via:
+  
   - **Individual Processing:** Use `POST /file/process` or `POST /v2/file/process` with required parameters:
     - `modalities`: An array specifying the modalities.
     - `mode`: Processing mode (async or sync).
     - `s3Location` or `webLocation`: The location of the uploaded file.
+  
   - **Batch Processing:** Use `POST /file/process/batch` to process multiple files concurrently.
 
 - **Tracking Processing Status:**  
@@ -123,6 +138,7 @@ Every API request requires authentication via the HTTP Bearer scheme using your 
 ### API New Feature Guide
 
 New API features include:
+
 - **Comprehensive File Data Reporting:** Provides a complete JSON report of all analytics.
 - **Generator Attribution:** (Image only) Identifies the AI generator behind the content.
 - **Visual Manipulation Detection:** Generates heatmaps to highlight manipulated regions.
@@ -135,20 +151,19 @@ New API features include:
 
 ### Setup and Installation
 
-Install the DeepID SDK in Python by running:
-```
-pip install https://deepid-assets.s3.amazonaws.com/sdk/deepid-python.zip
-```
-For on-prem installations, adjust the `base_domain` parameter accordingly.
+Install the DeepID SDK in Python by running the provided installation command. For on-prem installations, adjust the `base_domain` parameter accordingly.
 
 ### Workflow with SDK
 
 - **Initialization:**  
   Import the SDK and configure it with your API key.
+
 - **Processing Files:**  
   Submit files (or web URLs) for processing using the SDK’s methods.
+
 - **Tracking and Retrieval:**  
   Poll the processing status and retrieve detailed JSON reports once processing is complete.
+
 - **Feature Usage:**  
   Utilize comprehensive data reporting, generator attribution (for images only), heatmap generation, contextual description, and analytical reasoning.
 
@@ -158,12 +173,16 @@ For on-prem installations, adjust the `base_domain` parameter accordingly.
 
 - **Secure Your API Key:**  
   Always protect your API token using environment variables or secure configuration files.
+
 - **Optimize File Quality:**  
   Use high-quality, uncompressed files for more accurate detection.
+
 - **Efficient Polling:**  
   Adjust retry and delay settings based on network conditions and file size.
+
 - **Utilize Advanced Features:**  
   Leverage detailed reporting and analytical reasoning for deeper insights.
+
 - **Monitor Usage:**  
   Regularly review API usage statistics to stay within your limits.
 
@@ -171,10 +190,17 @@ For on-prem installations, adjust the `base_domain` parameter accordingly.
 
 ## Support and Resources
 
-- **API Documentation:** Visit [DeepID API Documentation](https://staging.api.deepidentify.ai/docs/) for detailed endpoint and parameter information.
-- **SDK Repositories:** Access the DeepID SDK repositories for additional installation guides, code examples, and troubleshooting.
-- **Support:** Contact our support team at support@deepmedia.ai for assistance.
-- **Feedback:** We welcome your feedback and suggestions to help improve our tools and documentation.
+- **API Documentation:**  
+  Visit [DeepID API Documentation](https://staging.api.deepidentify.ai/docs/) for detailed endpoint and parameter information.
+
+- **SDK Repositories:**  
+  Access the DeepID SDK repositories for additional installation guides, code examples, and troubleshooting.
+
+- **Support:**  
+  Contact our support team at support@deepmedia.ai for assistance.
+
+- **Feedback:**  
+  We welcome your feedback and suggestions to help improve our tools and documentation.
 
 ---
 
@@ -183,4 +209,3 @@ For on-prem installations, adjust the `base_domain` parameter accordingly.
 The DeepID API and SDK provide robust tools for integrating Deepfake detection into your applications. By following this guide and leveraging the provided endpoints and SDK features, you can enhance your content security and authenticity verification processes. We look forward to seeing how you use DeepID to combat Deepfakes and protect your media content.
 
 Happy coding and stay secure!
-```
