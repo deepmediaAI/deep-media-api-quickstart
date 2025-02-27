@@ -1,4 +1,3 @@
-```markdown
 # DeepID Audio Deepfake Detection - Quickstart Guide
 
 Welcome to the DeepID Audio Deepfake Detection Quickstart! This guide explains how to integrate DeepID’s advanced audio analysis capabilities into your applications. It complements the provided quickstart script by detailing additional features, workflow processes, and best practices tailored specifically for audio content.
@@ -25,15 +24,13 @@ DeepID leverages cutting-edge machine learning models to detect manipulated or A
    Sign up for a DeepID account at our [registration page](https://staging.api.deepidentify.ai/docs/) to obtain your unique API key. This key is essential for authenticating all requests through the DeepID API and SDK.
 
 2. **Install the DeepID SDK:**  
-   Ensure you have Python 3.6 or later installed. Install the DeepID SDK by running:
-   ```bash
+   Ensure you have Python 3.6 or later installed on your system. Then, install the DeepID SDK by running the following command in your terminal:
+   
    pip install deepid
-   ```
+
    Configure the SDK in your environment as needed.
 
 ### Workflow Overview
-
-The typical workflow for audio deepfake detection with the DeepID SDK includes:
 
 - **File Submission:**  
   Submit an audio file for asynchronous analysis by sending it along with the modality indicator (set to “audio”). The system returns a unique job identifier.
@@ -90,7 +87,6 @@ The latest release of the DeepID SDK introduces several enhancements specificall
 
 The DeepID SDK for audio deepfake detection offers a robust set of tools to enhance the security and authenticity of your audio content. This guide, along with the quickstart script, provides a solid foundation for integrating advanced audio analysis into your workflows. By leveraging these features, you can obtain detailed insights into potential manipulations and make informed decisions about your audio content.
 
-For more detailed information, please refer to the DeepID API documentation. If you require assistance, our support team is available at [support@deepmedia.ai](mailto:support@deepmedia.ai).
+For more detailed information, please refer to the DeepID API documentation. If you require assistance, our support team is available at support@deepmedia.ai.
 
 Happy coding and stay secure!
-```
