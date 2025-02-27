@@ -10,13 +10,13 @@ from deepid import API  # Import the DeepID SDK
 # 1. Set Up Your Environment
 # ---------------------------
 # Set your API key for authentication. Replace with your actual API key.
-API_KEY = "api_ZS3NCOPA6E1WQONU1M221JA65LAYAVPQGQJPDLBZ3ONXWQ8B"
+API_KEY = "you_api_key_here"
 
 # Configure additional settings:
 # Increase MAX_RETRIES if you're processing large files or if your network is slow.
 MAX_RETRIES = 10
 # Set the environment: 'staging' for testing or 'production' for the most reliable models.
-ENV = "staging"
+ENV = "production"
 # Adjust RETRY_DELAY based on your expected processing time (in seconds)
 RETRY_DELAY = 5
 # Define a directory to save the result files (ensure it exists or has write permissions)
