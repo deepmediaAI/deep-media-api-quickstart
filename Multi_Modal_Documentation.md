@@ -4,7 +4,7 @@
 **Author:** Deep ID team  
 **Version:** v1.4.12  
 **Last Release:** Nov 19, 2024  
-**Support:** [support@deepmedia.ai](mailto:support@deepmedia.ai)
+**Support:** support@deepmedia.ai
 
 ---
 
@@ -14,48 +14,71 @@ Welcome to the DeepID API and SDK instructional guide! This document will walk y
 
 ---
 
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Getting Started](#getting-started)
+   - Setup and Installation
+   - Workflow with SDK
+   - Detailed Feature Usage
+3. [What’s New in v1.4](#whats-new-in-v14)
+   - New Features Overview
+4. [API Utilization](#api-utilization)
+   - Authentication
+   - API Endpoints
+     - Fetching Available Models
+     - Uploading Files
+     - Processing Videos
+     - Tracking Processing Status
+     - Getting File Data
+     - Usage Statistics
+   - API New Feature Guide
+5. [SDK Utilization](#sdk-utilization)
+   - Setup and Installation
+   - Workflow with SDK
+   - Detailed Feature Usage and New Features
+6. [Best Practices and Tips](#best-practices-and-tips)
+7. [Support and Resources](#support-and-resources)
+8. [Conclusion](#conclusion)
+
+---
+
 ## Getting Started
 
-### Setup and Installation
-
+**Setup and Installation**  
 To get started with the DeepID API and SDK, you must first sign up for an API key. Visit our [DeepID Documentation](https://staging.api.deepidentify.ai/docs/) and follow the registration process to obtain your unique API key. This key will be used to authenticate your requests and grant access to the DeepID API endpoints.
 
-### Workflow with SDK
-
+**Workflow with SDK**  
 The typical workflow includes:
+- **File Submission:** Submitting media files for processing.
+- **Polling for Results:** Monitoring processing status until results are available.
+- **Retrieving and Saving Results:** Accessing detailed JSON reports to integrate into your applications.
 
-- **File Submission:** Submit media files for processing using asynchronous or synchronous methods.
-- **Polling for Results:** Monitor the processing status until results are available.
-- **Retrieving and Saving Results:** Once processed, retrieve detailed analysis reports in JSON format and integrate them into your workflow.
-
-### Detailed Feature Usage
-
-The guide covers how to utilize every feature provided by DeepID, including file data reporting, generator attribution, heatmap generation, contextual descriptions, and analytical reasoning.
+**Detailed Feature Usage**  
+This guide explains how to utilize DeepID’s various features, including comprehensive file data reporting, generator attribution (for images), visual manipulation detection, contextual image description, and analytical reasoning.
 
 ---
 
 ## What’s New in v1.4
 
-In our latest release, we've significantly enhanced our DeepFake detection capabilities with several new features designed to provide deeper insights and more detailed analyses of content authenticity.
+In this latest release, we have significantly enhanced our DeepFake detection capabilities with several new features:
 
-### New Features
+- **Comprehensive File Data Reporting (get_file_data):**  
+  Aggregates all available analysis metrics into a detailed JSON report that includes predictions, generator attributions, annotated heatmaps, image descriptions, and reasoning analyses.
 
-- **Comprehensive File Data Reporting**
-  - **get_file_data:** Aggregates all available analysis metrics into a single detailed JSON report. This report includes predictions, generator attributions, annotated heatmaps, image descriptions, and reasoning analyses.
-  
-- **Generator Attribution**
-  - **get_attribution:** Identifies the underlying AI generator or model responsible for creating the evaluated content, providing a crucial piece of the puzzle for establishing content authenticity.
-  
-- **Visual Manipulation Detection**
-  - **get_heatmap:** Generates detailed visual heatmaps that pinpoint areas of potential manipulation within an image. It uses bounding boxes to highlight parts of the image that show signs of AI intervention.
-  
-- **Contextual Image Description**
-  - **get_description:** Provides a narrative overview of the prominent objects and activities within a processed image to enhance content comprehension.
-  
-- **Analytical Reasoning**
-  - **get_reasoning:** Delivers a logic-based explanation of why an image is flagged as manipulated, increasing transparency and understanding of the detection process.
+- **Generator Attribution (get_attribution):**  
+  Identifies the AI generator or model responsible for creating the evaluated content, providing key insights into the origins of manipulated media.
 
-These enhancements expand your toolkit for handling potential DeepFake content and empower you to make informed decisions about media authenticity.
+- **Visual Manipulation Detection (get_heatmap):**  
+  Generates visual heatmaps that pinpoint areas of potential manipulation within an image.
+
+- **Contextual Image Description (get_description):**  
+  Provides narrative overviews describing the prominent objects and activities in an image, aiding in content comprehension.
+
+- **Analytical Reasoning (get_reasoning):**  
+  Delivers logic-based explanations for why an image is flagged as manipulated, enhancing transparency and trust in the results.
+
+These enhancements empower you with more detailed insights and robust analysis capabilities to safeguard media content.
 
 ---
 
@@ -63,65 +86,48 @@ These enhancements expand your toolkit for handling potential DeepFake content a
 
 ### Authentication
 
-Every API request requires authentication via the HTTP Bearer scheme using your API token. For security, you can manage your token by generating a short-lived session token or refreshing your token when needed.
-
-- **GET /user/token/session:** Generates a short-lived session token (valid for 1 hour).
-- **POST /user/token/refresh:** Refreshes your session token.
+Every API request requires authentication via the HTTP Bearer scheme using your API token. For enhanced security:
+- **GET /user/token/session:** Generate a short-lived session token (valid for 1 hour).
+- **POST /user/token/refresh:** Refresh your session token.
 
 ### API Endpoints
 
-#### Fetching Available Models
+- **Fetching Available Models:**  
+  Retrieve the list of available detection models using the `/models` endpoint. The response includes model identifiers and supported modalities (audio, video, image, text).
 
-Retrieve the list of available detection models by making a GET request to the `/models` endpoint. This will provide detailed information about each model, including its unique identifier and supported modalities (audio, video, image, text).
+- **Uploading Files:**  
+  Upload your files for processing using the `POST /file/uploadS3` endpoint. The API returns the filename for subsequent processing.
 
-#### Uploading Files
+- **Processing Videos:**  
+  DeepID supports both individual and batch processing via:
+  - **Individual Processing:** Use `POST /file/process` or `POST /v2/file/process` with required parameters:
+    - `modalities`: An array specifying the modalities.
+    - `mode`: Processing mode (async or sync).
+    - `s3Location` or `webLocation`: The location of the uploaded file.
+  - **Batch Processing:** Use `POST /file/process/batch` to process multiple files concurrently.
 
-Use the `POST /file/uploadS3` endpoint to upload your files. The file should be sent as a multipart/form-data request, and the API will return the filename for later use.
+- **Tracking Processing Status:**  
+  Monitor the status of processed files using `GET /file/status/{id}` (or `POST /file/status/batch` for multiple files). Success statuses include "RESULTS" and "PROCESSED".
 
-#### Processing Videos
+- **Getting File Data:**  
+  Retrieve detailed file data via:
+  - `GET /file/`
+  - `GET /file/{prefix}`
+  - `GET /file/md5/{md5}`
 
-DeepID supports two main approaches for processing videos:
-
-- **Individual File Processing:**  
-  Use the `POST /file/process` or `POST /v2/file/process` endpoints with required parameters:
-  - `modalities`: An array specifying which modalities to process.
-  - `mode`: The processing mode (async or sync).
-  - `s3Location` or `webLocation`: The file location.
-  
-  This call returns a unique video ID for tracking the processing status.
-
-- **Batch Processing:**  
-  Use the `POST /file/process/batch` endpoint to process multiple video files concurrently.
-
-#### Tracking Processing Status
-
-To track the status of a processed file, use the `GET /file/status/{id}` endpoint (or `POST /file/status/batch` for multiple files). The API returns statuses such as "queued," "processing," or "completed" (with "RESULTS" or "PROCESSED" indicating success).
-
-#### Getting File Data
-
-DeepID provides several endpoints to retrieve data about your files:
-- **GET /file/:** Overview of uploaded files with metadata and results.
-- **GET /file/{prefix}:** Retrieve files matching a specific prefix.
-- **GET /file/md5/{md5}:** Get file data by MD5 hash.
-
-#### Usage Statistics
-
-Monitor your usage with:
-- **GET /organisation/usage:** For organization-wide statistics.
-- **GET /user/usage:** For individual account statistics.
+- **Usage Statistics:**  
+  Check usage with:
+  - `GET /organisation/usage`
+  - `GET /user/usage`
 
 ### API New Feature Guide
 
-- **Comprehensive File Data Reporting (get_file_data):**  
-  Retrieves a detailed JSON report of all analytic data.
-- **Generator Attribution (get_attribution):**  
-  Identifies the AI generator behind the content.
-- **Visual Manipulation Detection (get_heatmap):**  
-  Produces a visual heatmap of potential manipulations.
-- **Contextual Image Description (get_description):**  
-  Provides a narrative description of image elements.
-- **Analytical Reasoning (get_reasoning):**  
-  Explains the detection outcomes with logic-based analysis.
+New API features include:
+- **Comprehensive File Data Reporting:** Provides a complete JSON report of all analytics.
+- **Generator Attribution:** (Image only) Identifies the AI generator behind the content.
+- **Visual Manipulation Detection:** Generates heatmaps to highlight manipulated regions.
+- **Contextual Image Description:** Automatically generates narrative descriptions of image content.
+- **Analytical Reasoning:** Offers detailed explanations for detection outcomes.
 
 ---
 
@@ -129,62 +135,52 @@ Monitor your usage with:
 
 ### Setup and Installation
 
-To install the DeepID SDK in Python, run:
-```bash
+Install the DeepID SDK in Python by running:
+```
 pip install https://deepid-assets.s3.amazonaws.com/sdk/deepid-python.zip
 ```
-For on-prem installations, configure the `base_domain` accordingly.
+For on-prem installations, adjust the `base_domain` parameter accordingly.
 
 ### Workflow with SDK
 
-1. **Initialize the SDK:**  
-   Import the SDK and set your API key.
-2. **Process Files:**  
-   Use the `process_file` (or `process_web_file` for web-based content) method to start analysis.
-3. **Track Status:**  
-   Poll the processing status with the `get_file_status` method.
-4. **Retrieve Results:**  
-   Once processing is complete, access the results from the status response.
-
-### Detailed Feature Usage
-
-- **Comprehensive File Data Reporting:** Retrieve all metrics in one report.
-- **Generator Attribution:** (Image only) Understand the content’s AI origin.
-- **Heatmap Visualization:** Generate heatmaps for visual manipulation detection.
-- **Contextual Description and Analytical Reasoning:** Automatically generate narratives and reasoning for flagged content.
+- **Initialization:**  
+  Import the SDK and configure it with your API key.
+- **Processing Files:**  
+  Submit files (or web URLs) for processing using the SDK’s methods.
+- **Tracking and Retrieval:**  
+  Poll the processing status and retrieve detailed JSON reports once processing is complete.
+- **Feature Usage:**  
+  Utilize comprehensive data reporting, generator attribution (for images only), heatmap generation, contextual description, and analytical reasoning.
 
 ---
 
 ## Best Practices and Tips
 
 - **Secure Your API Key:**  
-  Use environment variables or secure configuration files.
+  Always protect your API token using environment variables or secure configuration files.
 - **Optimize File Quality:**  
-  Use high-quality, uncompressed files for better accuracy.
+  Use high-quality, uncompressed files for more accurate detection.
 - **Efficient Polling:**  
-  Adjust retry settings to balance responsiveness and processing time.
+  Adjust retry and delay settings based on network conditions and file size.
 - **Utilize Advanced Features:**  
-  Leverage comprehensive reporting and analytical reasoning to deepen your insights.
+  Leverage detailed reporting and analytical reasoning for deeper insights.
 - **Monitor Usage:**  
-  Regularly check API usage to avoid exceeding your limits.
+  Regularly review API usage statistics to stay within your limits.
 
 ---
 
 ## Support and Resources
 
-- **API Documentation:**  
-  Visit [DeepID API Documentation](https://staging.api.deepidentify.ai/docs/) for detailed endpoint and parameter information.
-- **SDK Repositories:**  
-  Access the DeepID SDK repositories for installation guides, code examples, and troubleshooting.
-- **Support Channel:**  
-  Contact our support team at [support@deepmedia.ai](mailto:support@deepmedia.ai) or use our support ticketing system.
-
-We value your feedback and continuously work to enhance the DeepID API and SDK. Please share any suggestions or feature requests with us.
+- **API Documentation:** Visit [DeepID API Documentation](https://staging.api.deepidentify.ai/docs/) for detailed endpoint and parameter information.
+- **SDK Repositories:** Access the DeepID SDK repositories for additional installation guides, code examples, and troubleshooting.
+- **Support:** Contact our support team at support@deepmedia.ai for assistance.
+- **Feedback:** We welcome your feedback and suggestions to help improve our tools and documentation.
 
 ---
 
 ## Conclusion
 
-The DeepID API and SDK provide powerful tools to integrate Deepfake detection into your applications. By following this guide and leveraging the provided endpoints and SDK features, you can enhance your content security and authenticity verification processes. For further details, refer to our API documentation and SDK repositories. Our support team is always ready to help you succeed.
+The DeepID API and SDK provide robust tools for integrating Deepfake detection into your applications. By following this guide and leveraging the provided endpoints and SDK features, you can enhance your content security and authenticity verification processes. We look forward to seeing how you use DeepID to combat Deepfakes and protect your media content.
 
-We're excited to see how you utilize the DeepID tools to combat Deepfakes and safeguard your media content. Happy coding
+Happy coding and stay secure!
+```
