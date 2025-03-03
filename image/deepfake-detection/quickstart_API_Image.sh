@@ -49,6 +49,7 @@ echo -e "\n"
 # 3. Uploading an Image File
 # ---------------------------
 # Replace '/path/to/your/image.jpg' with the path to your image file.
+# Uploading an Image File
 IMAGE_FILE="/path/to/your/image.jpg"
 echo "Uploading image file: $IMAGE_FILE..."
 UPLOAD_RESPONSE=$(curl -s -X POST "https://api.deepidentify.ai/file/uploadS3" \
@@ -58,12 +59,13 @@ UPLOAD_RESPONSE=$(curl -s -X POST "https://api.deepidentify.ai/file/uploadS3" \
 
 echo "Upload Response:"
 echo "${UPLOAD_RESPONSE}"
+
+# Extract the filename from the response using sed
+UPLOADED_FILENAME=$(echo "${UPLOAD_RESPONSE}" | sed -n 's/.*"filename": *"\([^"]*\)".*/\1/p')
+echo "Extracted uploaded filename: ${UPLOADED_FILENAME}"
 # Extract the filename from the response (assuming the JSON key is "filename").
 # For example purposes, we assume the returned filename is stored in variable UPLOADED_FILENAME.
 # You may use a JSON parser like jq in a real script:
-UPLOADED_FILENAME=$(echo "${UPLOAD_RESPONSE}" | grep -oP '(?<="filename": ")[^"]+')
-echo "Uploaded filename: ${UPLOADED_FILENAME}"
-echo -e "\n"
 
 # ---------------------------
 # 4. Processing the Image File
@@ -82,7 +84,7 @@ PROCESS_RESPONSE=$(curl -s -X POST "https://api.deepidentify.ai/v2/file/process"
 echo "Process Response:"
 echo "${PROCESS_RESPONSE}"
 # Extract the file ID from the process response.
-FILE_ID=$(echo "${PROCESS_RESPONSE}" | grep -oP '(?<="id": ")[^"]+')
+FILE_ID=$(echo "${PROCESS_RESPONSE}" | sed -n 's/.*"id": *\([0-9]*\).*/\1/p')
 echo "Processing initiated. File ID: ${FILE_ID}"
 echo -e "\n"
 
@@ -103,8 +105,8 @@ while true; do
     RESPONSE=$(curl -s -X GET "https://api.deepidentify.ai/file/status/${FILE_ID}" \
          -H "Authorization: Bearer $DEEPID_API_KEY")
     
-    # Extract status field (using grep for simplicity; consider using jq for robust parsing)
-    STATUS=$(echo "${RESPONSE}" | grep -oP '(?<="status": ")[^"]+')
+    # Extract status field using sed
+    STATUS=$(echo "${RESPONSE}" | sed -n 's/.*"status": *"\([^"]*\)".*/\1/p')
     echo "Current status: ${STATUS}"
     
     if [[ "${STATUS}" == "RESULTS" || "${STATUS}" == "PROCESSED" ]]; then
