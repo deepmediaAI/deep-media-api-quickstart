@@ -34,22 +34,16 @@ echo -e "\n"
 # ---------------------------
 # 2. Fetching Available Models
 # ---------------------------
-# Retrieve the list of available models and review their supported modalities.
 echo "Fetching available models..."
 curl -X GET "https://api.deepidentify.ai/models" \
      -H "Authorization: Bearer $DEEPID_API_KEY"
 echo -e "\n"
 
-# Note:
-# Review the output and choose a model that supports the "audio" modality.
-# The output includes details such as Model ID, Supported modalities,
-# Description, and Version.
-
 # ---------------------------
 # 3. Uploading an Audio File
 # ---------------------------
-# Replace '/path/to/your/audio.mp3' with the path to your audio file.
-AUDIO_FILE="/path/to/your/audio.mp3"
+# Replace '/path/to/your/audio.wav' with the path to your audio file.
+AUDIO_FILE="/path/to/your/audio.wav"
 echo "Uploading audio file: $AUDIO_FILE..."
 UPLOAD_RESPONSE=$(curl -s -X POST "https://api.deepidentify.ai/file/uploadS3" \
      -H "Authorization: Bearer $DEEPID_API_KEY" \
@@ -58,18 +52,14 @@ UPLOAD_RESPONSE=$(curl -s -X POST "https://api.deepidentify.ai/file/uploadS3" \
 
 echo "Upload Response:"
 echo "${UPLOAD_RESPONSE}"
-# Extract the filename from the response (assuming the JSON key is "filename").
-# For example purposes, we assume the returned filename is stored in variable UPLOADED_FILENAME.
-# You may use a JSON parser like jq in a real script:
-UPLOADED_FILENAME=$(echo "${UPLOAD_RESPONSE}" | grep -oP '(?<="filename": ")[^"]+')
+# Extract the filename using sed.
+UPLOADED_FILENAME=$(echo "${UPLOAD_RESPONSE}" | sed -n 's/.*"filename": *"\([^"]*\)".*/\1/p')
 echo "Uploaded filename: ${UPLOADED_FILENAME}"
 echo -e "\n"
 
 # ---------------------------
 # 4. Processing the Audio File
 # ---------------------------
-# Submit the uploaded audio for asynchronous deepfake analysis.
-# Note: The 'modalities' array now contains only "audio".
 echo "Submitting audio for deepfake detection..."
 PROCESS_RESPONSE=$(curl -s -X POST "https://api.deepidentify.ai/v2/file/process" \
      -H "Authorization: Bearer $DEEPID_API_KEY" \
@@ -81,15 +71,14 @@ PROCESS_RESPONSE=$(curl -s -X POST "https://api.deepidentify.ai/v2/file/process"
          }")
 echo "Process Response:"
 echo "${PROCESS_RESPONSE}"
-# Extract the file ID from the process response.
-FILE_ID=$(echo "${PROCESS_RESPONSE}" | grep -oP '(?<="id": ")[^"]+')
+# Extract the file ID using sed.
+FILE_ID=$(echo "${PROCESS_RESPONSE}" | sed -n 's/.*"id": *\([0-9]\+\).*/\1/p')
 echo "Processing initiated. File ID: ${FILE_ID}"
 echo -e "\n"
 
 # ---------------------------
 # 5. Tracking Processing Status & Retrieving Results
 # ---------------------------
-# Function to check the status of the analysis.
 check_status() {
     STATUS_RESPONSE=$(curl -s -X GET "https://api.deepidentify.ai/file/status/${FILE_ID}" \
          -H "Authorization: Bearer $DEEPID_API_KEY")
@@ -97,14 +86,13 @@ check_status() {
     echo "${STATUS_RESPONSE}"
 }
 
-# Loop to periodically check if processing is complete.
 echo "Checking processing status..."
 while true; do
     RESPONSE=$(curl -s -X GET "https://api.deepidentify.ai/file/status/${FILE_ID}" \
          -H "Authorization: Bearer $DEEPID_API_KEY")
     
-    # Extract status field (using grep for simplicity; consider using jq for robust parsing)
-    STATUS=$(echo "${RESPONSE}" | grep -oP '(?<="status": ")[^"]+')
+    # Extract status field using sed.
+    STATUS=$(echo "${RESPONSE}" | sed -n 's/.*"status": *"\([^"]*\)".*/\1/p')
     echo "Current status: ${STATUS}"
     
     if [[ "${STATUS}" == "RESULTS" || "${STATUS}" == "PROCESSED" ]]; then
