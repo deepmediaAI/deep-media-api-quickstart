@@ -67,7 +67,7 @@ PROCESS_RESPONSE=$(curl -s -X POST "https://api.deepidentify.ai/v2/file/process"
      -d "{
            \"modalities\": [\"audio\"],
            \"mode\": \"async\",
-           \"s3Location\": \"${UPLOADED_FILENAME}\"
+           \"s3Locations\": \"${UPLOADED_FILENAME}\"
          }")
 echo "Process Response:"
 echo "${PROCESS_RESPONSE}"
