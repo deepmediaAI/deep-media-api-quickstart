@@ -7,38 +7,37 @@
 
 ---
 
-## Introduction
+## Turbo Mode Overview
 
-Welcome to the DeepID API and SDK instructional guide! This document will walk you through the process of integrating DeepID's powerful Deepfake detection capabilities into your own applications and systems. By leveraging our API and SDK, you can seamlessly identify and mitigate the risks associated with Deepfake content.
+Turbo Mode is a high-speed processing option for Deepfake detection designed to deliver near real-time results. It is optimized for short-duration or small-size media files and is ideal for rapid testing, live demonstrations, and quick validations. By using Turbo Mode, you bypass the traditional asynchronous queuing and polling mechanisms, allowing you to obtain immediate feedback on your deepfake detection tasks.
+
+> **Important:** Turbo Mode is perfect for small samples. For longer videos or larger files, please use the standard processing endpoints to ensure complete and accurate analysis.
 
 ---
 
 ## Table of Contents
 
-1. [Introduction](#introduction)
-2. [Getting Started](#getting-started)
-   - Setup and Installation
-   - Workflow with SDK
-   - Detailed Feature Usage
-3. [What’s New in v1.4](#whats-new-in-v14)
-   - New Features Overview
-4. [API Utilization](#api-utilization)
-   - Authentication
-   - API Endpoints
-     - Fetching Available Models
-     - Uploading Files
-     - Processing Videos
-     - Tracking Processing Status
-     - Getting File Data
-     - Usage Statistics
-   - API New Feature Guide
-5. [SDK Utilization](#sdk-utilization)
-   - Setup and Installation
-   - Workflow with SDK
-   - Detailed Feature Usage and New Features
-6. [Best Practices and Tips](#best-practices-and-tips)
-7. [Support and Resources](#support-and-resources)
-8. [Conclusion](#conclusion)
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+  - [Setup and Installation](#setup-and-installation)
+  - [Workflow Overview](#workflow-overview)
+- [What's New in v1.4](#whats-new-in-v14)
+  - [Turbo Mode](#turbo-mode)
+- [API Utilization](#api-utilization)
+  - [Authentication](#authentication)
+  - [API Endpoints](#api-endpoints)
+- [SDK Utilization](#sdk-utilization)
+  - [Setup and Installation](#setup-and-installation-1)
+  - [Workflow Overview](#workflow-overview-1)
+- [Best Practices and Tips](#best-practices-and-tips)
+- [Support and Resources](#support-and-resources)
+- [Conclusion](#conclusion)
+
+---
+
+## Introduction
+
+Welcome to the DeepID API and SDK Instructional Guide! This guide will walk you through the process of integrating DeepID’s deepfake detection capabilities into your applications and systems. With our streamlined tools, you can quickly detect deepfakes and protect your media content.
 
 ---
 
@@ -47,50 +46,27 @@ Welcome to the DeepID API and SDK instructional guide! This document will walk y
 ### Setup and Installation
 
 1. **Register for an API Key:**  
-   Sign up for a DeepID account at our [registration page](https://staging.api.deepidentify.ai/docs/) to obtain your unique API key. This key is essential for authenticating all requests through the DeepID API and SDK.
+   Sign up for a DeepID account on our registration page to obtain your unique API key. This key is required to authenticate all API and SDK requests.
 
 2. **Install the DeepID SDK:**  
-   Ensure you have Python 3.6 or later installed on your system. Install the DeepID SDK by running the appropriate installation command. Configure the SDK in your environment as needed.
+   Ensure you have Python 3.6 or later installed. Then install the DeepID SDK using the appropriate package installation command. Configure the SDK in your environment as needed.
 
-### Workflow with SDK
-
-The typical workflow includes:
+### Workflow Overview
 
 - **File Submission:**  
-  Submitting media files for processing.
-  
-- **Polling for Results:**  
-  Monitoring processing status until results are available.
-  
-- **Retrieving and Saving Results:**  
-  Accessing detailed JSON reports to integrate into your applications.
-
-### Detailed Feature Usage
-
-This guide explains how to utilize DeepID’s various features, including comprehensive file data reporting, generator attribution (for images), visual manipulation detection, contextual image description, and analytical reasoning.
+  Submit your media files (images, audio, video) for deepfake detection.
+- **Processing and Turbo Mode:**  
+  Choose between standard processing and Turbo Mode for immediate results.
+- **Result Retrieval:**  
+  Retrieve the deepfake detection results and integrate them into your application.
 
 ---
 
-## What’s New in v1.4
+## What's New in v1.4
 
-In this latest release, we have significantly enhanced our DeepFake detection capabilities with several new features:
+### Turbo Mode
 
-- **Comprehensive File Data Reporting (get_file_data):**  
-  Aggregates all available analysis metrics into a detailed JSON report that includes predictions, generator attributions, annotated heatmaps, image descriptions, and reasoning analyses.
-
-- **Generator Attribution (get_attribution):**  
-  Identifies the AI generator or model responsible for creating the evaluated content, providing key insights into the origins of manipulated media.
-
-- **Visual Manipulation Detection (get_heatmap):**  
-  Generates visual heatmaps that pinpoint areas of potential manipulation within an image.
-
-- **Contextual Image Description (get_description):**  
-  Provides narrative overviews describing the prominent objects and activities in an image, aiding in content comprehension.
-
-- **Analytical Reasoning (get_reasoning):**  
-  Delivers logic-based explanations for why an image is flagged as manipulated, enhancing transparency and trust in the results.
-
-These enhancements empower you with more detailed insights and robust analysis capabilities to safeguard media content.
+Turbo Mode is our newest feature designed for rapid deepfake detection. It uses dedicated endpoints that process small or short media files in near real-time. This allows you to get immediate results without waiting for traditional asynchronous processing. Turbo Mode is ideal for quick tests, live demos, and rapid prototyping. Remember, Turbo Mode is optimized for small samples only; for larger or longer media files, use the standard processing methods.
 
 ---
 
@@ -98,52 +74,52 @@ These enhancements empower you with more detailed insights and robust analysis c
 
 ### Authentication
 
-Every API request requires authentication via the HTTP Bearer scheme using your API token. For enhanced security, you can:
+All API requests require authentication using the HTTP Bearer token. For secure API interactions:
 
-- Generate a short-lived session token (valid for 1 hour) using **GET /user/token/session**.
-- Refresh your session token with **POST /user/token/refresh**.
+- Generate a session token (valid for 1 hour) by making a request to the session token endpoint.
+- Refresh your token when needed using the token refresh endpoint.
 
 ### API Endpoints
 
-- **Fetching Available Models:**  
-  Retrieve the list of available detection models using the `/models` endpoint. The response includes model identifiers and supported modalities (audio, video, image, text).
+#### Fetching Available Models
 
-- **Uploading Files:**  
-  Upload your files for processing using the `POST /file/uploadS3` endpoint. The API returns the filename for subsequent processing.
+Retrieve the list of available deepfake detection models by making a request to the models endpoint. The response includes model identifiers and the modalities supported (audio, video, image, text).
 
-- **Processing Videos:**  
-  DeepID supports both individual and batch processing via:
+#### Uploading Files
+
+Upload your media files using the file upload endpoint. Send the file as a multipart/form-data request; the API will return the filename for further processing.
+
+#### Processing Media Files
+
+DeepID supports several methods for processing media files:
+
+**Standard Processing:**
+
+- *Individual File Processing:*  
+  Use the individual processing endpoint with parameters such as the list of modalities, processing mode (asynchronous or synchronous), and the file location.
   
-  - **Individual Processing:** Use `POST /file/process` or `POST /v2/file/process` with required parameters:
-    - `modalities`: An array specifying the modalities.
-    - `mode`: Processing mode (async or sync).
-    - `s3Location` or `webLocation`: The location of the uploaded file.
-  
-  - **Batch Processing:** Use `POST /file/process/batch` to process multiple files concurrently.
+- *Batch Processing:*  
+  Use the batch processing endpoint to process multiple files concurrently.
 
-- **Tracking Processing Status:**  
-  Monitor the status of processed files using `GET /file/status/{id}` (or `POST /file/status/batch` for multiple files). Success statuses include "RESULTS" and "PROCESSED".
+**Turbo Mode Processing:**
 
-- **Getting File Data:**  
-  Retrieve detailed file data via:
-  - `GET /file/`
-  - `GET /file/{prefix}`
-  - `GET /file/md5/{md5}`
+- *Turbo Mode:*  
+  Use the dedicated Turbo Mode endpoint for near real-time processing. This option bypasses the asynchronous queue and returns immediate results. Note that Turbo Mode is best used for small, short-duration media only.
 
-- **Usage Statistics:**  
-  Check usage with:
-  - `GET /organisation/usage`
-  - `GET /user/usage`
+#### Tracking Processing Status
 
-### API New Feature Guide
+Monitor the status of processed files by querying the status endpoint with the unique file identifier. For multiple files, use the batch status endpoint. Successful processing statuses include "RESULTS" and "PROCESSED".
 
-New API features include:
+#### Getting File Data
 
-- **Comprehensive File Data Reporting:** Provides a complete JSON report of all analytics.
-- **Generator Attribution:** (Image only) Identifies the AI generator behind the content.
-- **Visual Manipulation Detection:** Generates heatmaps to highlight manipulated regions.
-- **Contextual Image Description:** Automatically generates narrative descriptions of image content.
-- **Analytical Reasoning:** Offers detailed explanations for detection outcomes.
+Retrieve detailed information about your uploaded files by using the file data endpoints:
+- An overview endpoint for all files.
+- An endpoint for files matching a specific prefix.
+- An endpoint to retrieve file data based on the MD5 hash.
+
+#### Usage Statistics
+
+Check your usage statistics using the organization usage and user usage endpoints.
 
 ---
 
@@ -151,54 +127,47 @@ New API features include:
 
 ### Setup and Installation
 
-Install the DeepID SDK in Python by running the provided installation command. For on-prem installations, adjust the `base_domain` parameter accordingly.
+1. **Install the SDK:**  
+   Install the DeepID SDK using the provided package installation command.
+2. **Configuration for On-Premise Installations:**  
+   If you are running an on-premise installation, configure the SDK with your API key and adjust the base domain as needed.
 
-### Workflow with SDK
+### Workflow Overview
 
-- **Initialization:**  
-  Import the SDK and configure it with your API key.
-
-- **Processing Files:**  
-  Submit files (or web URLs) for processing using the SDK’s methods.
-
-- **Tracking and Retrieval:**  
-  Poll the processing status and retrieve detailed JSON reports once processing is complete.
-
-- **Feature Usage:**  
-  Utilize comprehensive data reporting, generator attribution (for images only), heatmap generation, contextual description, and analytical reasoning.
+1. **Initialization:**  
+   Import and initialize the SDK with your API key.
+2. **File Submission:**  
+   Submit your media files or web URLs for deepfake detection using the SDK methods.
+3. **Tracking:**  
+   Monitor the processing status until the detection results are ready.
+4. **Result Integration:**  
+   Retrieve and integrate the deepfake detection results into your application.
 
 ---
 
 ## Best Practices and Tips
 
 - **Secure Your API Key:**  
-  Always protect your API token using environment variables or secure configuration files.
-
+  Always store your API token securely using environment variables or secure configuration files.
 - **Optimize File Quality:**  
   Use high-quality, uncompressed files for more accurate detection.
-
+- **Use Turbo Mode Appropriately:**  
+  Employ Turbo Mode for rapid testing on small or short media files. Avoid using Turbo Mode for larger files to ensure complete analysis.
 - **Efficient Polling:**  
-  Adjust retry and delay settings based on network conditions and file size.
-
-- **Utilize Advanced Features:**  
-  Leverage detailed reporting and analytical reasoning for deeper insights.
-
-- **Monitor Usage:**  
-  Regularly review API usage statistics to stay within your limits.
+  Adjust your polling intervals based on network conditions and file sizes.
+- **Monitor Your Usage:**  
+  Regularly review your API usage statistics to manage your resources effectively.
 
 ---
 
 ## Support and Resources
 
 - **API Documentation:**  
-  Visit [DeepID API Documentation](https://staging.api.deepidentify.ai/docs/) for detailed endpoint and parameter information.
-
+  Visit the DeepID API Documentation page for detailed endpoint information and parameters.
 - **SDK Repositories:**  
-  Access the DeepID SDK repositories for additional installation guides, code examples, and troubleshooting.
-
+  Access the DeepID SDK repositories for installation guides, additional usage details, and troubleshooting tips.
 - **Support:**  
-  Contact our support team at support@deepmedia.ai for assistance.
-
+  For assistance, contact our support team at support@deepmedia.ai.
 - **Feedback:**  
   We welcome your feedback and suggestions to help improve our tools and documentation.
 
@@ -206,6 +175,6 @@ Install the DeepID SDK in Python by running the provided installation command. F
 
 ## Conclusion
 
-The DeepID API and SDK provide robust tools for integrating Deepfake detection into your applications. By following this guide and leveraging the provided endpoints and SDK features, you can enhance your content security and authenticity verification processes. We look forward to seeing how you use DeepID to combat Deepfakes and protect your media content.
+The DeepID API and SDK provide robust tools for integrating deepfake detection into your applications. With the new Turbo Mode feature, you can achieve near real-time results for small media samples, making it easier than ever to detect deepfakes quickly. Follow this guide to streamline your integration process and enhance your content security and authenticity verification efforts.
 
 Happy coding and stay secure!
