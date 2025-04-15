@@ -2,7 +2,7 @@
 
 Welcome to the Deep Media API Quickstart repository! This repository provides a comprehensive set of examples and tools to help you integrate DeepID’s advanced deepfake detection capabilities into your projects. The repository is organized into separate folders by modality—**Image**, **Audio**, and **Video**—and includes both API and SDK examples, as well as evaluation visualization tools.
 
-# New Features: What the heck is turbo mode?
+# New Features: What the heck is Turbo Mode?
 
 Turbo mode API quickstarts are available under each modality—**Image**, **Audio**, and **Video**. They are designed for running small-length samples really, really quickly. Note that turbo mode is optimized for short media files(<10 seconds); larger samples will not work with it and may interfere with your ability to run short length videos.
 
