@@ -12,11 +12,14 @@ Turbo mode API quickstarts are available under each modality—**Image**, **Audi
 
 - **API Quickstart Examples**  
   These examples demonstrate how to use the DeepID API directly with bash scripts for deepfake detection across different media types:
-  - **image/deepfake-detection/quickstart_API.sh**  
+  - **image/deepfake-detection/quickstart_API_Image.sh**
+  - **image/deepfake-detection/quickstart_API_Turbo_Image.sh**  
     Bash script for detecting deepfakes in images.
-  - **audio/deepfake-detection/quickstart_API.sh**  
+  - **audio/deepfake-detection/quickstart_API_Audio.sh**
+  - **audio/deepfake-detection/quickstart_API_Turbo_Audio.sh**  
     Bash script for detecting deepfakes in audio files.
-  - **video/deepfake-detection/quickstart_API.sh**  
+  - **video/deepfake-detection/quickstart_API_Video.sh**
+  - **video/deepfake-detection/quickstart_API_Turbo_Video.sh**  
     Bash script for detecting deepfakes in video files.
 
 - **SDK Quickstart Examples**  
