@@ -20,7 +20,7 @@
 #
 
 # --- Configuration ---
-export DEEPID_API_KEY="api_6MH9JVUKQS687O25UKDWZB2M283BDYGA8VY4EFFMEBTK1V8U"
+export DEEPID_API_KEY="your_api_key"
 
 # --- Input File ---
 FILE="$1"
