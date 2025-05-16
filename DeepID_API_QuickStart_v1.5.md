@@ -108,6 +108,8 @@ Once status is `RESULTS` or `PROCESSED`, the `/file/status` response already con
 
 Need to know **where** manipulation occurs? Use the threshold endpoint to pull only segments whose scores meet or exceed your chosen cutoff.
 
+Important: The threshold endpoint is not compatible with Turbo Mode. If you processed a file with Turbo Mode enabled, re‑process it in standard (non‑Turbo) mode to access segment‑level filtering.Sometimes you need more than a single probability – you need to know where manipulation is most likely. DeepID now exposes a threshold endpoint that returns only the segments whose scores meet or exceed a threshold you specify.
+
 #### Endpoint  
 
 ```
@@ -148,9 +150,9 @@ curl -X GET      "https://api.deepidentify.ai/results/threshold/1234abcd5678efgh
 
 #### How to Use  
 
-* **Fine-grained review** – play just the returned windows.  
-* **Red-flag triage** – auto-escalate segments > 0.9.  
-* **UI overlay** – highlight suspect portions in a media player.
+* **Fine-grained review** – play just the returned temporal windows to verify manipulation.
+* **Red-flag triage** – automatically hand segments exceeding a high threshold (e.g. 0.9) to human analysts.
+* **UI overlay** – highlight suspect portions in a media‑player UI
 
 | Scenario | Suggested Threshold |
 |----------|--------------------|
